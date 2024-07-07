@@ -1,6 +1,7 @@
 package tfar.unstabletools.item.tools;
 
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -29,7 +30,7 @@ public class ItemUnstableAxe extends AxeItem {
     if (entity instanceof LivingEntity) {
       LivingEntity livingEntity = (LivingEntity) entity;
       if (livingEntity.getMobType() == MobType.UNDEAD)
-        entity.hurt(DamageSource.playerAttack(player), 8);
+        entity.hurt(player.level().damageSources().playerAttack(player), 8);
       else livingEntity.heal(8);
       player.addEffect(new MobEffectInstance(MobEffects.HUNGER,20,4));
     }

@@ -79,7 +79,7 @@ public class DivisionSignItem extends StableDivisionSignItem {
     public InteractionResult useOn(UseOnContext ctx) {
         Player player = ctx.getPlayer();
         InteractionHand hand = ctx.getHand();
-        Level world = player.level;
+        Level world = player.level();
         BlockPos pos = ctx.getClickedPos();
         if (hand == InteractionHand.OFF_HAND || world.isClientSide) return InteractionResult.FAIL;
         Block block = world.getBlockState(pos).getBlock();
@@ -130,7 +130,7 @@ public class DivisionSignItem extends StableDivisionSignItem {
     public static void onSacrifice(LivingDeathEvent e) {
         if (!(e.getSource().getEntity() instanceof Player player)) return;
         LivingEntity sacrifice = e.getEntity();
-        Level world = sacrifice.level;
+        Level world = sacrifice.level();
         BlockPos pos = sacrifice.blockPosition();
         if (!world.canSeeSkyFromBelowWater(pos)) return;
         Block block = world.getBlockState(pos).getBlock();

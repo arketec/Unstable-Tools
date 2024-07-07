@@ -25,7 +25,7 @@ public class Datagen {
         generator.addProvider(server,new BlockConversionProvider(output));
         BlockTagsProvider blockTagsProvider = new ModBlockTagsProvider(output,lookupProvider,helper);
         generator.addProvider(server,blockTagsProvider);
-        generator.addProvider(server,new ModItemTagsProvider(output,lookupProvider,blockTagsProvider,helper));
+        generator.addProvider(server,new ModItemTagsProvider(output,lookupProvider,blockTagsProvider.contentsGetter(),helper));
         generator.addProvider(server,new ModRecipeProvider(output));
 
         generator.addProvider(client,new ModModelProvider(output));

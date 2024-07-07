@@ -35,10 +35,10 @@ public class ModItems {
     public static final Item unstable_shovel = new ShovelItem(UNSTABLE, 3, -1.5f, properties);
     public static final Item unstable_sword = new SwordItem(UNSTABLE, 3, -2.4f, properties);
 
-    public static final Item unstable_helmet = new ArmorItem(UNSTABLE_ARMOR, EquipmentSlot.HEAD, properties);
-    public static final Item unstable_chestplate = new ArmorItem(UNSTABLE_ARMOR, EquipmentSlot.CHEST, properties);
-    public static final Item unstable_leggings = new ArmorItem(UNSTABLE_ARMOR, EquipmentSlot.LEGS, properties);
-    public static final Item unstable_boots = new ArmorItem(UNSTABLE_ARMOR, EquipmentSlot.FEET, properties);
+    public static final Item unstable_helmet = new ArmorItem(UNSTABLE_ARMOR, ArmorItem.Type.HELMET, properties);
+    public static final Item unstable_chestplate = new ArmorItem(UNSTABLE_ARMOR, ArmorItem.Type.CHESTPLATE, properties);
+    public static final Item unstable_leggings = new ArmorItem(UNSTABLE_ARMOR, ArmorItem.Type.LEGGINGS, properties);
+    public static final Item unstable_boots = new ArmorItem(UNSTABLE_ARMOR, ArmorItem.Type.BOOTS, properties);
 
     public static Set<Item> getItems() {
         if (ITEMS.isEmpty()) {

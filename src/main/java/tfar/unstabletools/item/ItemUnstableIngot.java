@@ -2,11 +2,13 @@ package tfar.unstabletools.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -31,8 +33,8 @@ import java.util.List;
 @Mod.EventBusSubscriber
 public class ItemUnstableIngot extends Item implements IItemColored {
 
-  public static final DamageSource DIVIDE_BY_DIAMOND = (new DamageSource("divide_by_diamond").bypassArmor());
-  public static final DamageSource ESCAPE_DIVIDE_BY_DIAMOND = (new DamageSource("escape_divide_by_diamond").bypassArmor());
+  public static final DamageSource DIVIDE_BY_DIAMOND = (new DamageSource(Holder.direct(new DamageType("divide_by_diamond", 1))));
+  public static final DamageSource ESCAPE_DIVIDE_BY_DIAMOND = (new DamageSource(Holder.direct(new DamageType("escape_divide_by_diamond", 1))));
 
   public ItemUnstableIngot(Properties properties) {
     super(properties);
@@ -67,7 +69,7 @@ public class ItemUnstableIngot extends Item implements IItemColored {
       return;
     }
 
-    Level world = e.player.level;
+    Level world = e.player.level();
 
     if (world.isClientSide)return;
     boolean explode = false;
@@ -116,7 +118,7 @@ public class ItemUnstableIngot extends Item implements IItemColored {
   }
 
   public static void boom(Player player) {
-    Level world = player.level;
+    Level world = player.level();
     world.explode(null, player.getX(), player.getY(), player.getZ(), 1, Level.ExplosionInteraction.NONE);
     player.hurt(DIVIDE_BY_DIAMOND, 100);
   }

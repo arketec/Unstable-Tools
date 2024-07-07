@@ -17,7 +17,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -94,13 +93,13 @@ public class UnstableTools {
     private static int[] array = new int[]{4, 7, 9, 4};
 
     @Override
-    public int getDurabilityForSlot(@Nonnull EquipmentSlot slotIn) {
+    public int getDurabilityForType(ArmorItem.Type pType) {
       return 0;
     }
 
     @Override
-    public int getDefenseForSlot(@Nonnull EquipmentSlot slot) {
-      return array[slot.getIndex()];
+    public int getDefenseForType(ArmorItem.Type pType) {
+      return array[pType.getSlot().getIndex()];
     }
 
     @Override
@@ -173,18 +172,6 @@ public class UnstableTools {
 
     }
 
-    @SubscribeEvent
-    public static void registerTab(CreativeModeTabEvent.Register event) {
-      event.registerCreativeModeTab(new ResourceLocation(MODID,MODID),
-              builder -> builder.title(Component.translatable("itemGroup.unstabletools"))
-                      .icon(ModItems.unstable_pickaxe::getDefaultInstance)
-                      .displayItems((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
-                        for (Item item : ModItems.getItems()) {
-                          pOutput.accept(item);
-                        }
-                      }).build()
-      );
-    }
   }
 
   public static void onBlockDrops(Level worldIn, BlockPos pos, ItemStack stackToSpawn, Entity entity, ItemStack stack) {
@@ -206,7 +193,7 @@ public class UnstableTools {
     if (entity instanceof WitherBoss && event.getSource().getEntity() instanceof Player) {
 
       ItemStack itemStackToDrop = new ItemStack(ModItems.inactive_division_sign);
-      event.getDrops().add(new ItemEntity(entity.level, entity.getX(), entity.getY(), entity.getZ(), itemStackToDrop));
+      event.getDrops().add(new ItemEntity(entity.level(), entity.getX(), entity.getY(), entity.getZ(), itemStackToDrop));
     }
   }
 
