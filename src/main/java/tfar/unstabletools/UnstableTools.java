@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.CreativeModeTabRegistry;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -48,6 +49,10 @@ public class UnstableTools {
     IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
     bus.addListener(Datagen::gather);
     ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
+
+    IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    modEventBus.addListener(CreativeTab::onCreativeModeTabRegister);
+    modEventBus.addListener((CreativeTab::onCreativeModeTabBuildContents));
   }
 
   public static final String MODID = "unstabletools";

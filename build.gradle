@@ -2,7 +2,12 @@ buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://maven.parchmentmc.org' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        repositories {
+            maven {
+                name = 'sponge'
+                url = 'https://repo.spongepowered.org/repository/maven-public/'
+            }
+        }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
@@ -16,6 +21,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'org.spongepowered.mixin'
 
 //apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
@@ -40,6 +46,9 @@ minecraft {
     // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
             workingDirectory project.file('run')
             arg "-mixin.config="+archivesBaseName+".mixins.json"
 
@@ -82,7 +91,10 @@ minecraft {
 }
 
 sourceSets {
-    main.resources.srcDirs += 'src/generated/resources'
+    main {
+        resources.srcDirs += 'src/generated/resources'
+        ext.refMap = "mixins.unstabletools.refmap.json"
+    }
 }
 
 repositories{
@@ -127,7 +139,8 @@ dependencies {
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
 
     // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
     // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
@@ -152,7 +165,9 @@ jar {
                 "Implementation-Version": "${version}",
                 "Implementation-Vendor" :"unstabletoolssareus",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs": "${modid}.mixins.json"
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+                "MixinConfigs": "${modid}.mixins.json",
+                'FMLCorePluginContainsFMLMod': 'true',
         ])
     }
 }

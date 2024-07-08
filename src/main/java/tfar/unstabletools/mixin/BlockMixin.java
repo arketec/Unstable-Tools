@@ -17,9 +17,8 @@ import tfar.unstabletools.UnstableTools;
 
 import java.util.List;
 
-@Mixin(Block.class)
+@Mixin(value = Block.class)
 public class BlockMixin {
-
     private static final ThreadLocal<Entity> entityThreadLocal = ThreadLocal.withInitial(() -> null);
     private static final ThreadLocal<ItemStack> itemStackThreadLocal = ThreadLocal.withInitial(() -> ItemStack.EMPTY);
 
